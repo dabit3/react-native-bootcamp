@@ -256,10 +256,6 @@ In App.js we see the following class generated for us as part of the initial pro
 ```js
 class App extends Component {
   render() {
-    const data = Platform.select({
-      default: 'Hello world'
-    })
-    console.log('data:', data)
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
