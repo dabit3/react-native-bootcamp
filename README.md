@@ -276,9 +276,32 @@ When using a class, you have two main benefits:
 
 In the above class, we have __no__ state but there is a lifecycle method: `render()`
 
+Let's update the component to have some state as well as hook into the other lifecycle methods:
+
+```js
+class App extends Component {
+  state = { greeting: 'Hello World' } // 1
+  static getDerivedStateFromProps() { // 2
+    console.log('getDerivedStateFromProps called')
+  }
+  componentDidMount() { // 4
+    console.log('componentDidMount called')
+  }
+  render() { // 3
+    return (
+      <View style={styles.container}>
+        <Text style={styles.instructions}>{this.state.greeting}</Text>
+      </View>
+    );
+  }
+}
+```
+
+In the above component, we hook into all of the mounting lifefycle methods. You can see in the comments the order in which they are called.
+
 ### Creating a component using a function
 
-This same component can be rewritten as a function:
+This same original App component can be rewritten as a function:
 
 ```js
 const App = () => 
@@ -287,4 +310,153 @@ const App = () =>
     <Text style={styles.instructions}>To get started, edit App.js</Text>
     <Text style={styles.instructions}>{instructions}</Text>
   </View>
+```
+
+The above function is created using an ES6 arrow function.
+
+The same function could be rewritten in ES5 this way:
+
+```js
+var App = function() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.welcome}>Welcome to React Native!</Text>
+      <Text style={styles.instructions}>To get started, edit App.js</Text>
+      <Text style={styles.instructions}>{instructions}</Text>
+    </View>
+  )
+}
+```
+
+These both work the same, but most documentation will use ES6 so it's good to know.
+
+To learn more about ES6 arrow functions click [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions).
+
+### State
+
+State is one of two ways to handle dynamic data in your application, the other being props.
+
+The main difference is that state is controlled by class components, whereas props can be controlled in a multitude of ways.
+
+Let's take another look at a component with some basic state:
+
+```js
+class App extends Component {
+  state = { greeting: 'Hello World' }
+  render() {
+    return (
+      <Text>{this.state.greeting}</Text>
+    );
+  }
+}
+```
+
+`this.state.greeting will be equal to `'Hello World'` in this component.
+
+What if we wanted to change the value of the state?
+
+We can do this, but we need to keep in mind 1 thing: In order to rerender the new value of the greeting, we need to rerender by triggering update lifecyle.
+
+That meains we can't simply do something like this:
+
+```js
+changeName = () => {
+  this.state.greeting = 'Hello, this is my new greeting!'
+}
+```
+
+The above function _would_ change the value of state.greeting, but the new value would not show up on the screen, to do that we need to trigger the render method.
+
+There are 3 ways to trigger a rerendering of a component:
+1. Calling `setState()`   
+2. Calling `forceUpdate` (not recommended for most use cases)   
+3. Receiving new props into the component
+
+The best way to change the state in our circumstance would be to call `setState()` which will change the state as well as trigger an update lifecycle:
+
+
+```js
+class App extends Component {
+  state = { greeting: 'Hello World' }
+  changeGreeting = () => {
+    this.setState({ greeting: 'Hello, this is my new greeting!' })
+  }
+  render() {
+    return (
+      <View>
+        <Text>{this.state.greeting}</Text>
+        <Text onPress={this.changeGreeting}>Change Greeting</Text>
+      </View>
+    );
+  }
+}
+```
+
+### Props
+
+Let's take a look at how to use props.
+
+Instead of hard-coding values, we'll write a component that gets its data passed in as parameters known as "props" in React & React Native.
+
+#### Using props in a Class component
+
+```js
+// creation
+class Person extends React.Component {
+  render() {
+    return (
+      <Text>Hello, my name is {this.props.name}</Text>
+    )
+  }
+}
+
+// usage
+<Person name="Allison">
+<Person name="Nader">
+<Person name="Amanda">
+```
+
+#### Using props in a Functional component
+
+```js
+// creation
+const Person = (props) => <Text>Hello, my name is {props.name}</Text>
+
+// usage
+<Person name="Allison">
+```
+
+You may also use an ES6 destruturing assignment to get the individual props out of the function argument:
+
+```js
+// creation
+const Person = ({ name }) => <Text>Hello, my name is {name}</Text>
+
+// usage
+<Person name="Allison">
+```
+
+
+#### Dynamic props
+
+Props can also be dynamic:
+
+
+```js
+const Person = ({ name }) => <Text>Hello, my name is {name}</Text>
+
+class App extends React.Component {
+  state = { name: 'Amanda' }
+  changeName = () => {
+    this.setState({ name: 'Allison' })
+  }
+  render() {
+    return (
+      <View>
+        <Person name={this.state.name} />
+        <Text onPress={this.changeName}>Change Name</Text>
+      <View>
+    )
+  }
+}
 ```
