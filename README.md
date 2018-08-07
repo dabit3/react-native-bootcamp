@@ -53,7 +53,7 @@ MyProject
 │   package.json
 ```
 
-#### Main things to keep in mind:
+#### Main things to know:
 
 __android__
 
@@ -90,7 +90,13 @@ __package.json__ - This file lists all dependencies of the project as well as sc
 
 __.flowconfig__ - Preconfigured settings for Flow (A typechecking system that is optional & not enabled by default)
 
-## Intro to React Native
+# Intro to React Native
+
+## Basic Components
+
+React Native ships with over 30 UI components & over 40 native device APIs.
+
+UI components display UI along with some functionality, while native device APIs allow you to access native functionality.
 
 Let's take a look at a few components that we're introduced to in App.js:
 
@@ -195,6 +201,41 @@ const styles = StyleSheet.create({
   },
 });
 ```
+
+## Intro to debugging
+
+Debugging your app is one of the most important things you need to know how to do in order to competently develop in React Native. Let's take a look at some ways to do this.
+
+### Developer Menu
+
+To open the developer menu, click `CMD + d` in iOS or `CTRL + m` on Android.
+
+Here we have 7 options:
+
+- Reload
+- Debug JS Remotely
+- Enable Live Reload
+- Start Systrace
+- Enable Hot Reloading
+- Toggle Inspector
+- Show Perf Monitor
+
+#### Main things to know:
+
+- There is a shortcut for reloading: `CMD + r` on iOS or `m + m` on Android.
+- Debug JS Remotely is an easy way to debug & log your JS. This will open a browser window & you can then open developer console to debug.
+- Hot reloading is very powerful.
+- Toggle inspector is OK. Use the __Touchables__ functionality to highlight touchable components.
+- For more serious UI debugging, use [React Devtools](https://github.com/facebook/react-devtools) or [React Native Debugger](https://github.com/jhen0409/react-native-debugger)
+
+## Other React Native "Good to knows"
+
+- You can use any text editor to develop for React Native. I recomment VS Code.
+- If you install a JavaScript dependency, you only need to refresh your app or at the most restart the packager to use the new package.
+- If you install a native dependency, you must first properly link the dependency & then rerun the native code in order to use it.
+- 80% of React Native is just knowing how to use React well
+- Keep in mind touchable space when developing for React Native but really mobile in general.
+
 
 ## Understanding React
 
