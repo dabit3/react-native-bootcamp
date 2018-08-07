@@ -59,11 +59,11 @@ __android__
 
 This folder contains the Android project. To open this project in Android Studio, only open the Android folder.
 
-If changes are made in this project, the native code needs to be recompiled.
+If changes are made in this project, the native code needs to be recompiled (`i.e. react-native run-ios`).
 
 __ios__
 
-This folder contains both the iOS as well as the Apple TV projects. Top open this project, open only the ios/MyProject.xcodeproj in Xcode (`i.e. react-native run-ios`).
+This folder contains both the iOS as well as the Apple TV projects. Top open this project, open only the ios/MyProject.xcodeproj in Xcode.
 
 If changes are made in this project, the native code needs to be recompiled (`i.e. react-native run-android`).
 
