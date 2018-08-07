@@ -55,7 +55,19 @@ MyProject
 
 #### Main things to keep in mind:
 
-__index.js__ - Main entrypoint
+__android__
+
+This folder contains the Android project. To open this project in Android Studio, only open the Android folder.
+
+If changes are made in this project, the native code needs to be recompiled.
+
+__ios__
+
+This folder contains both the iOS as well as the Apple TV projects. Top open this project, open only the ios/MyProject.xcodeproj in Xcode (`i.e. react-native run-ios`).
+
+If changes are made in this project, the native code needs to be recompiled (`i.e. react-native run-android`).
+
+__index.js__ - Main application entrypoint
 
 ```js
 import {AppRegistry} from 'react-native';
