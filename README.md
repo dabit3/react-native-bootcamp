@@ -318,3 +318,80 @@ class App extends React.Component {
 
 ## Working with User Input
 
+The main way to work with user input is by using the TextInput component.
+
+TextInput works very similarly to its web counterpart, `input`.
+
+The main properties you need to know about to get going with this component are:
+
+1. The onChangeText method - This method takes the user input & passes it to a function.   
+2. Style - Out of the box, there is no styling so it will not show up
+
+```js
+<TextInput
+  style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+  onChangeText={(text) => this.setState({ text })}
+/>
+```
+
+Other useful props:
+
+`value` - This allows you to control the value of the TextInput (i.e. for clearing input after submitting a form).   
+`secureTextEntry` - This props is useful for password inputs or inputs that you want hidden.   
+`autoCorrect` - Allows you to disable autocorrect.   
+`placeholder` - Allows for placeholder text   
+`autoCapitalize` - Control how the default auto-capitalization is handled
+
+Here's how you might set up a basic form with a single user input:
+
+```js
+class App extends React.Component {
+  state = {
+    input: ''
+  }
+  render() {
+    return (
+      <View style={{ padding: 25 }}>
+        <TextInput
+          style={{ marginBottom: 30, height: 40, borderColor: 'gray', borderWidth: 1  }}
+          onChangeText={val => this.setState({ input: val })}
+        />
+        <Text>{ this.state.input }</Text>
+      </View>
+    )
+  }
+}
+```
+
+We can take this a step further though & make the onChangeText function reusable by making it a class method:
+
+```js
+class App extends React.Component {
+  state = {
+    username: '',
+    password: ''
+  }
+  onChangeText = (key, val) => {
+    this.setState({ [key]: val })
+  }
+  render() {
+    return (
+      <View style={{ padding: 25 }}>
+        <TextInput
+          style={{ marginBottom: 30, height: 40, borderColor: 'gray', borderWidth: 1  }}
+          onChangeText={val => this.onChangeText('username', val)}
+          placeholder='Username'
+        />
+        <TextInput
+          style={{ marginBottom: 30, height: 40, borderColor: 'gray', borderWidth: 1  }}
+          onChangeText={val => this.onChangeText('password', val)}
+          placeholder='Password'
+          secureTextEntry={true}
+        />
+        <Text>{ this.state.username }</Text>
+        <Text>{ this.state.password }</Text>
+      </View>
+    )
+  }
+}
+```
