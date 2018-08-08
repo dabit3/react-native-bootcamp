@@ -12,6 +12,12 @@ Another difference between React Native & web in this regard is that React Nativ
 
 This brings us the the next question, if you're not already familiar with flexBox: What doe `flexDirection` do?
 
+#### Flexbox has many properties, but the main ones you will be using for layout are these:
+
+`flexDirection` - Defines the primary axis. Options are `row` or `column`. Default is `column`.    
+`justifyContent` - Defines the layout of the primary axis. Options are `flex-start`, `center`, `flex-end`, `space-around` & `space-between`. Default is `flex-start`.   
+`alignItems` - Defines the layout of the secondary axis. Options are `flex-start`, `center`, `flex-end`, & `stretch`. Default is `stretch`.
+
 ### Creating UI elements
 
 A very useful exercise when learning about styling is to create a button. A button incorporates many different styling techniques & can teach us a lot about not only styling in general but also FlexBox.
@@ -38,12 +44,6 @@ const styles = {
   </View>
 </TouchableHighlight>
 ```
-
-#### Flexbox has many properties, but the main ones you will be using for layout are these:
-
-`flexDirection` - Defines the primary axis. Options are `row` or `column`. Default is `column`.    
-`justifyContent` - Defines the layout of the primary axis. Options are `flex-start`, `center`, `flex-end`, `space-around` & `space-between`. Default is `flex-start`.   
-`alignItems` - Defines the layout of the secondary axis. Options are `flex-start`, `center`, `flex-end`, & `stretch`. Default is `stretch`.
 
 ## Working with lists
 
