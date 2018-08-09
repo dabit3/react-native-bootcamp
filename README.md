@@ -318,17 +318,17 @@ To create a stack navigator, you need at least one route.
 
 ```js
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, } from 'react-native'
 import { createStackNavigator } from 'react-navigation'
 
-const Home = () => <View>
+const Home = (props) => <View>
   <Text>Home</Text>
-  <Text onPress={() => this.props.navigation.navigate('Page2')}>Go to page 2</Text>
+  <Text onPress={() => props.navigation.navigate('Page2')}>Go to page 2</Text>
 </View>
 
-const Page2 = () => <View>
+const Page2 = (props) => <View>
   <Text>Page2</Text>
-  <Text onPress={() => this.props.navigation.goBack()}>Go back</Text>
+  <Text onPress={() => props.navigation.goBack()}>Go back</Text>
 </View>
 
 const Navigation = createStackNavigator({
@@ -339,6 +339,104 @@ const Navigation = createStackNavigator({
 export default Navigation
 ```
 
+### TabNavigator
+
+A tab navigator has a very similar API to the stack navigator:
+
+```js
+import React from 'react'
+import { View, Text, } from 'react-native'
+import { createBottomTabNavigator } from 'react-navigation'
+
+const Home = (props) => <View>
+  <Text>Home</Text>
+  <Text onPress={() => props.navigation.navigate('Page2')}>Go to page 2</Text>
+</View>
+
+const Page2 = (props) => <View>
+  <Text>Page2</Text>
+  <Text onPress={() => props.navigation.navigate('Home')}>Go Home</Text>
+</View>
+
+const Navigation = createTcreateBottomTabNavigatorbNavigator({
+  Home: { screen: Home },
+  Page2: { screen: Page2 }
+})
+
+export default Navigation
+```
+
+### DrawerNavigator
+
+A drawer navigator also has a similar API to the other navigators we've looked at so far.
+
+The main difference being how the drawer is opened & closed:
+
+```js
+this.props.navigation.openDrawer();
+this.props.navigation.closeDrawer();
+```
+
+```js
+import React from 'react'
+import { View, Text, } from 'react-native'
+import { createDrawerNavigator } from 'react-navigation'
+
+const Home = (props) => <View>
+  <Text>Home</Text>
+  <Text onPress={() => props.navigation.openDrawer()}>View Menu</Text>
+</View>
+
+const Page2 = (props) => <View>
+  <Text>Page2</Text>
+  <Text onPress={() => props.navigation.openDrawer()}>View Menu</Text>
+</View>
+
+const Navigation = createDrawerNavigator({
+  Home: { screen: Home },
+  Page2: { screen: Page2 }
+})
+
+export default Navigation
+```
+
+### Nested Navigation
+
+ But in reality, most apps will end up having a combination or navigator nested within each other. A prime example of this is a stack navigator nested within a drawer navigator:
+
+ ```js
+ import React from 'react'
+import { View, Text, } from 'react-native'
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
+
+const Home = (props) => <View>
+  <Text>Home</Text>
+  <Text onPress={() => props.navigation.navigate('Page2')}>Go to page 2</Text>
+</View>
+
+const Page2 = (props) => <View>
+  <Text>Page2</Text>
+  <Text onPress={() => props.navigation.goBack()}>Home</Text>
+</View>
+
+const SignUp = (props) => <View>
+  <Text>Sign Up Page</Text>
+</View>
+
+const Main = createStackNavigator({
+  Home: { screen: Home },
+  Page2: { screen: Page2 }
+})
+
+const Tabs = createBottomTabNavigator({
+  SignUp: { screen: SignUp },
+  Main: { screen: Main } 
+})
+
+export default Tabs
+
+```
 
 ## Authentication
 
+T
