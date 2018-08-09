@@ -302,13 +302,15 @@ To get started, we first need to install React Navigation:
 yarn add react-navigation
 ```
 
-There are three main types of navigation in most mobile applications, & also available to us in React Navigation:   
+There are four main types of navigation that we'll be going over in React Navigation:   
 
 1. Stack Navigation - When navigating from page to page, a transition is overlayed with the new route or popped to the old route. The idea is this ends up being an array of routes that you can push to / pop from.   
 
 2. Tab Navigation - Tabs are shown to the user, either at the top or bottom of the app, allowing the user to click on a tab to view the contents of the tab. Many times the tab view will also be a StackNavigator making for nested navigation.   
 
 3. Drawer Navigation - This is typically when a menu slides out from either the left or right & the user can click on an item to navigate.   
+
+4. SwitchNavigator - This navigator will allow you to switch between different navigators & navigation stacks.
 
 Let's take a look at each & also how to have a tab navigator with a nested stack navigator.
 
@@ -439,4 +441,144 @@ export default Tabs
 
 ## Authentication
 
-T
+There are many ways to set up Authentication. You can build your own service or use a managed service like Auth0 or Amazon Cognito.
+
+In this example, we'll look at how to implement authentication using Amazon Cognito, React Navigation, & AWS Amplify.
+
+To get started, we'll create a new AWS project using the AWS Mobile CLI.
+
+If you don't already have the cli installed, install & configure it:
+
+```bash
+npm i -g awsmobile-cli
+awsmobile configure
+```
+
+Next, we'll initialize a new AWS project in the React Native project root:
+
+```bash
+awsmobile init -y
+```
+
+After the project is initialized, we'll add user-signin & push the new config to our account:
+
+```bash
+awsmobile user-signin enable
+asmobile push
+```
+
+Now that everything is installed, we'll link the native dependency we'll need linked in order to do authentication in React Native with Amazon Cognito:
+
+```bash
+react-native link amazon-cognito-identity-js
+```
+
+Finally, we'll configure the React Native project in `index.js`:
+
+```js
+// index.js
+import {AppRegistry} from 'react-native';
+import App from './App';
+import {name as appName} from './app.json';
+
+import Amplify from 'aws-amplify'
+import config from './aws-exports'
+Amplify.configure(config)
+
+AppRegistry.registerComponent(appName, () => App);
+```
+
+Now, we can begin using the authentication service!
+
+To add some really basic authentication, we can use the `withAuthenticator` Higher Order Component (HOC) to our app in App.js and get something up & running right away:
+
+```js
+import React from 'react'
+import { View, Text, } from 'react-native'
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
+import { withAuthenticator } from 'aws-amplify-react-native
+
+const Home = (props) => <View>
+  <Text>Home</Text>
+  <Text onPress={() => props.navigation.navigate('Page2')}>Go to page 2</Text>
+</View>
+
+const Page2 = (props) => <View>
+  <Text>Page2</Text>
+  <Text onPress={() => props.navigation.goBack()}>Home</Text>
+</View>
+
+const Info = (props) => <View>
+  <Text>Info Page</Text>
+</View>
+
+const Main = createStackNavigator({
+  Home: { screen: Home },
+  Page2: { screen: Page2 }
+})
+
+const Tabs = createBottomTabNavigator({
+  Main: { screen: Main },
+  Info: { screen: Info }
+})
+
+export default withAuthenticator(Tabs)
+
+```
+
+Next, let's take a look at how to implement Authentication without relying on this `withAuthenticator` HOC.
+
+In this example, we'll use a `SwitchNavigator` to show & hide a navigation stack based on the authentication state of the logged in user. For now, we're faking a user by setting a `setTimeout` in the `Initializing` component.
+
+To do this, we use the `SwitchNavigator` to load three route stacks: `Initializing` (a component), `Main` (a Stack Navigator), & `Unauthorized`.
+
+`Initializing` first loads then after checking for a user will then either switch to the `Main` or `Unauthorized` stack.
+
+```js
+import React from 'react'
+import { View, Text, ActivityIndicator} from 'react-native'
+import { createSwitchNavigator, createStackNavigator } from 'react-navigation'
+
+import { withAuthenticator } from 'aws-amplify-react-native'
+
+const Home = (props) => <View>
+  <Text>Home</Text>
+  <Text onPress={() => props.navigation.navigate('Page2')}>Go to page 2</Text>
+</View>
+
+const Page2 = (props) => <View>
+  <Text>Page2</Text>
+  <Text onPress={() => props.navigation.goBack()}>Home</Text>
+</View>
+
+const Unauthorized = () => <View>
+  <Text>Unauthorized User</Text>
+</View>
+
+class Initializing extends React.Component {
+  componentDidMount() {
+    setTimeout(() => {
+      this.props.navigation.navigate('Main')
+    }, 2000)
+  }
+  render() {
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <ActivityIndicator />
+      <Text>Initializing</Text>
+    </View>
+  }
+}
+
+const Main = createStackNavigator({
+  Home: { screen: Home },
+  Page2: { screen: Page2 }
+})
+
+const MainNav = createSwitchNavigator({
+  Initializing: { screen: Initializing },
+  Main: { screen: Main },
+  Unauthorized: { screen: Unauthorized }
+})
+
+export default MainNav
+```
