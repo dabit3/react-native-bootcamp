@@ -496,7 +496,7 @@ To add some really basic authentication, we can use the `withAuthenticator` High
 import React from 'react'
 import { View, Text, } from 'react-native'
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation'
-import { withAuthenticator } from 'aws-amplify-react-native
+import { withAuthenticator } from 'aws-amplify-react-native'
 
 const Home = (props) => <View>
   <Text>Home</Text>
