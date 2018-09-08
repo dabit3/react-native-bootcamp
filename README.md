@@ -357,7 +357,7 @@ What if we wanted to change the value of the state?
 
 We can do this, but we need to keep in mind 1 thing: In order to rerender the new value of the greeting, we need to rerender by triggering update lifecyle.
 
-That meains we can't simply do something like this:
+That means we can't simply do something like this:
 
 ```js
 changeName = () => {
